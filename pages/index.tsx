@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (token) {
     return {
       redirect: {
-        destination: '/dashboard',
+        destination: '/home',
         permanent: false,
       },
     };

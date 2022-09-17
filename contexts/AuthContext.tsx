@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import ErrorList from '@/config/errors';
 import { SignInRequestData } from '@/types';
 import UserService from '@/services/user.service';
+import AuthLayout from '@/components/_layouts/auth';
+import DefaultLayout from '@/components/_layouts/default';
 
 type User = {
   name: string;
@@ -27,6 +29,8 @@ export const AuthContext = createContext({} as AuthContextType);
 export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<User | null>(null);
   const isAuthenticated = !!user;
+
+  const Layout = isAuthenticated ? DefaultLayout : AuthLayout;
 
   function signOut() {
     destroyCookie(undefined, 'my-books.token');
@@ -63,11 +67,15 @@ export function AuthProvider({ children }: any) {
 
       setUser(response.user);
 
-      Router.push('/dashboard');
+      Router.push('/home');
     } catch (err: any) {
       toast.error(err?.message || ErrorList.INTERNAL_SERVER_ERROR);
     }
   }
 
-  return <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+      <Layout>{children}</Layout>
+    </AuthContext.Provider>
+  );
 }

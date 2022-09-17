@@ -1,9 +1,5 @@
 import { Container } from './styles';
 
-const AuthLayout = ({ children }: any) => (
-  <Container>
-    <div className="content">{children}</div>
-  </Container>
-);
+const AuthLayout = ({ children }: any) => <Container>{children}</Container>;
 
 export default AuthLayout;

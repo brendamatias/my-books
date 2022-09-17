@@ -1,42 +1,39 @@
-import { AuthContext } from '@/contexts/AuthContext';
-import { useContext, useState, Dispatch, SetStateAction } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useContext, useState } from 'react';
 import { FaHome, FaThLarge, FaSignOutAlt } from 'react-icons/fa';
 import { ImBooks } from 'react-icons/im';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import { MdBook } from 'react-icons/md';
-
+import { AuthContext } from '@/contexts/AuthContext';
 import { Container, SidebarWrapper } from './styles';
 
-type Page = 'home' | 'my-books' | 'recommendations';
+type Page = '/home' | '/library' | '/recommendations';
 
-type SidebarProps = {
-  page: Page;
-  setPage: Dispatch<SetStateAction<Page>>;
-};
-
-type Link = {
+type ILink = {
   id: Page;
   label: string;
   icon: any;
 };
 
-const Sidebar = ({ page, setPage }: SidebarProps) => {
+const Sidebar = () => {
   const [theme] = useState('dark');
   const { signOut } = useContext(AuthContext);
+  const { route } = useRouter();
 
-  const links: Link[] = [
+  const links: ILink[] = [
     {
-      id: 'home',
+      id: '/home',
       label: 'Home',
       icon: <FaHome />,
     },
     {
-      id: 'my-books',
+      id: '/library',
       label: 'Library',
       icon: <ImBooks />,
     },
     {
-      id: 'recommendations',
+      id: '/recommendations',
       label: 'Recommendations',
       icon: <FaThLarge />,
     },
@@ -55,11 +52,13 @@ const Sidebar = ({ page, setPage }: SidebarProps) => {
 
             <ul>
               {links.map((link) => (
-                <li key={link.id} className={`${link.id === page && 'active'}`}>
-                  <button type="button" onClick={() => setPage(link.id)}>
-                    <div className="icon">{link.icon}</div>
-                    {link.label}
-                  </button>
+                <li key={link.id} className={`${route.includes(link.id) && 'active'}`}>
+                  <Link href={link.id}>
+                    <div className="link">
+                      <div className="icon">{link.icon}</div>
+                      {link.label}
+                    </div>
+                  </Link>
                 </li>
               ))}
             </ul>

@@ -65,7 +65,7 @@ export const SidebarWrapper = styled.div`
     gap: 30px;
 
     > li {
-      > button {
+      > .link {
         display: flex;
         align-items: center;
         gap: 16px;
@@ -74,6 +74,7 @@ export const SidebarWrapper = styled.div`
         background-color: transparent;
         padding: 0;
         width: 100%;
+        cursor: pointer;
 
         > .icon {
           display: flex;

@@ -5,7 +5,6 @@ import { useContext } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import Input from '../Input';
-import AuthLayout from '../_layouts/auth';
 
 const SignIn = () => {
   const { register, handleSubmit } = useForm();
@@ -16,7 +15,7 @@ const SignIn = () => {
   };
 
   return (
-    <AuthLayout>
+    <div className="content">
       <h1>Welcome Back</h1>
       <h3>Please, login to your account</h3>
 
@@ -47,7 +46,7 @@ const SignIn = () => {
 
         <button type="submit">Login</button>
       </form>
-    </AuthLayout>
+    </div>
   );
 };
 

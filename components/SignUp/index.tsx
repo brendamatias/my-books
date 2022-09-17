@@ -7,7 +7,6 @@ import Router from 'next/router';
 import { toast } from 'react-toastify';
 import ErrorList from '@/config/errors';
 import Input from '../Input';
-import AuthLayout from '../_layouts/auth';
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm<SignUpRequestData>();
@@ -23,7 +22,7 @@ const SignUp = () => {
   };
 
   return (
-    <AuthLayout>
+    <div className="content">
       <h1>Sign Up</h1>
       <h3>Create your account</h3>
 
@@ -60,7 +59,7 @@ const SignUp = () => {
 
         <button type="submit">Create account</button>
       </form>
-    </AuthLayout>
+    </div>
   );
 };
 

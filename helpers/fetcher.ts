@@ -1,11 +1,11 @@
 import { parseCookies } from 'nookies';
 
-const { 'my-books.token': token } = parseCookies();
-
-export async function fetchJson(url: string, method: 'GET' | 'POST', body?: any) {
+export async function fetchJson(url: string, method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: any) {
   const headers: any = {
     'Content-Type': 'application/json',
   };
+
+  const { 'my-books.token': token } = parseCookies();
 
   if (token) headers.Authorization = `Bearer ${token}`;
 
@@ -15,9 +15,12 @@ export async function fetchJson(url: string, method: 'GET' | 'POST', body?: any)
     body: JSON.stringify(body),
   });
 
-  const data = await response.json();
+  if (response.status !== 204) {
+    const data = await response.json();
 
-  if (!response.ok) throw new Error(data.message);
+    if (!response.ok) throw new Error(data.message);
+    return data;
+  }
 
-  return data;
+  return null;
 }

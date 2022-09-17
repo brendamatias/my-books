@@ -16,6 +16,9 @@
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".svg"] }],
+    "react/require-default-props": "off",
+    "import/no-cycle": "off",
+    "no-underscore-dangle": "off",
     "import/extensions": [
       "error",
       "ignorePackages",

@@ -6,7 +6,7 @@ export const Container = styled.div`
   justify-content: center;
   height: 100vh;
 
-  > .content {
+  .content {
     padding: 20px 30px;
     display: flex;
     justify-content: center;
