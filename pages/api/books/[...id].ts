@@ -58,7 +58,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   await connectDB();
   const [, token] = authHeader.split(' ');
 
+  // @ts-ignore
   const decoded = await promisify(jwt.verify)(token, authConfig.secret);
+  // @ts-ignore
   const user = await User.findOne({ id: decoded.id });
 
   if (!user) return res.status(404).json({ message: 'Token invalid' });

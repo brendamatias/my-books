@@ -6,6 +6,7 @@ import { Book, BookStatus, GoogleApiBooksResponseData } from '@/types';
 import BookList from '@/components/BookList';
 import BookService from '@/services/book.service';
 import ErrorList from '@/config/errors';
+import Image from 'next/image';
 import { Container } from './styles';
 
 const BOOK_API = 'https://www.googleapis.com/books/v1/volumes?q=';
@@ -19,7 +20,7 @@ const Library = ({ books }: LibraryProps) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [foundBooks, setFoundBooks] = useState<GoogleApiBooksResponseData[]>([]);
 
-  const createBook = async (book: GoogleApiBooksResponseData, type?: BookStatus) => {
+  const createBook = async (book: GoogleApiBooksResponseData) => {
     try {
       const body = {
         book_id: book.id,
@@ -87,6 +88,7 @@ const Library = ({ books }: LibraryProps) => {
 
   useEffect(() => {
     getBooks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
   return (
@@ -104,7 +106,12 @@ const Library = ({ books }: LibraryProps) => {
               foundBooks.map((book) => (
                 <li key={book.id}>
                   <button type="button" onClick={() => createBook(book)}>
-                    <img src={book.volumeInfo?.imageLinks?.thumbnail} alt={book.volumeInfo.title} />
+                    <Image
+                      src={book.volumeInfo?.imageLinks?.thumbnail || ''}
+                      alt={book.volumeInfo.title}
+                      width={30}
+                      height={45}
+                    />
                     {book.volumeInfo?.title}
                   </button>
                 </li>

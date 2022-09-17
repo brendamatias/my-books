@@ -42,12 +42,8 @@ export const Container = styled.div`
       margin: 0;
       padding: 0;
       position: relative;
-
-      > img {
-        height: inherit;
-        width: inherit;
-        border-radius: 8px;
-      }
+      border-radius: 8px;
+      overflow: hidden;
     }
 
     .remove-button {
@@ -80,7 +76,17 @@ export const Container = styled.div`
       align-items: flex-start;
       gap: 2rem;
 
-      > div {
+      > .image {
+        max-height: 192px;
+        min-height: 192px;
+        max-width: 128px;
+        min-width: 128px;
+        background-color: ${({ theme }) => theme.violet};
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      > .content {
         > strong {
           margin-top: 0;
         }

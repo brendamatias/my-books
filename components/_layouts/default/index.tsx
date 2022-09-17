@@ -2,12 +2,12 @@ import Sidebar from '@/components/Sidebar';
 import SidebarSecondary from '@/components/SidebarSecondary';
 import { Container } from './styles';
 
-const DefaultLayout = ({ page, setPage, children }: any) => (
+const DefaultLayout = ({ children }: any) => (
   <Container>
-    <Sidebar page={page} setPage={setPage} />
+    <Sidebar />
 
     <div className="container">{children}</div>
-    <SidebarSecondary wishListCount={10} readCount={10} readBooks={10} />
+    <SidebarSecondary />
   </Container>
 );
 

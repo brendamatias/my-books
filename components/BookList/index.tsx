@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
-import ErrorList from '@/config/errors';
-import BookService from '@/services/book.service';
 import { Book, BookStatus } from '@/types';
+import Image from 'next/image';
 import { FaStar } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { Container, ScrollVertical } from './styles';
@@ -10,12 +8,19 @@ type BookListProps = {
   title: string;
   books: Book[];
   type: BookStatus;
-  handleUpdate: (book_id: string, type: BookStatus) => void;
-  handleDelete: (book_id: string, title: string) => void;
+  handleUpdate?: (book_id: string, type: BookStatus) => Promise<void> | void;
+  handleDelete?: (book_id: string, title: string) => void;
   withDescription?: boolean;
 };
 
-const BookList = ({ title, books, type, handleUpdate, handleDelete, withDescription = false }: BookListProps) => (
+const BookList = ({
+  title,
+  books,
+  type,
+  handleUpdate = () => {},
+  handleDelete = () => {},
+  withDescription = false,
+}: BookListProps) => (
   <Container>
     <strong>{title}</strong>
 
@@ -24,7 +29,7 @@ const BookList = ({ title, books, type, handleUpdate, handleDelete, withDescript
         {books.map((book) => (
           <li key={book._id}>
             <button type="button" onClick={() => handleUpdate(book._id, type)} className="image-button">
-              <img src={book.image} />
+              <Image src={book.image || ''} alt={book.title} layout="fill" />
             </button>
             <strong>{book.title}</strong>
 
@@ -40,14 +45,16 @@ const BookList = ({ title, books, type, handleUpdate, handleDelete, withDescript
       <ul className="book-list">
         {books.map((book) => (
           <li key={book._id}>
-            <img src={book.image} />
+            <div className="image">
+              <Image src={book.image || ''} alt={book.title} height={192} width={128} />
+            </div>
 
-            <div>
+            <div className="content">
               <strong>{book.title}</strong>
               <span>{book.author}</span>
 
               <div className="rating">
-                {[1, 2, 3, 4, 5].map((item, index) => (
+                {[1, 2, 3, 4, 5].map((item) => (
                   <div key={item}>
                     <FaStar />
                   </div>

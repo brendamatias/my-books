@@ -5,37 +5,11 @@ import { ImTrophy } from 'react-icons/im';
 import { MdBookmark, MdMenuBook } from 'react-icons/md';
 import { Container } from './styles';
 
-type SidebarSecondaryProps = {
-  wishListCount: number;
-  readCount: number;
-  readBooks: number;
-};
-
-const SidebarSecondary = ({ wishListCount, readCount, readBooks }: SidebarSecondaryProps) => {
+const SidebarSecondary = () => {
   const { user } = useContext(AuthContext);
 
   const [pagesRead] = useState(0);
   const [authors] = useState([]);
-  // const [user, setUser] = React.useState({});
-
-  // React.useEffect(() => {
-  //   let pageReadsCount = 0;
-  //   const authorsArray = [];
-
-  //   readBooks.forEach((book) => {
-  //     pageReadsCount += book.page_count || 0;
-  //     authorsArray[book.author] = (authorsArray[book.author] || 0) + 1;
-  //   });
-
-  //   setPageReads(pageReadsCount);
-  //   setAuthors(authorsArray);
-  // }, [readBooks]);
-
-  // React.useEffect(() => {
-  //   const currentUser = localStorage.getItem('my-books');
-
-  //   setUser(JSON.parse(currentUser));
-  // }, []);
 
   return (
     <Container>
@@ -58,7 +32,7 @@ const SidebarSecondary = ({ wishListCount, readCount, readBooks }: SidebarSecond
           </div>
           <div>
             <strong>Wishlist</strong>
-            <span>{wishListCount} books</span>
+            <span>0 books</span>
           </div>
         </div>
 
@@ -68,7 +42,7 @@ const SidebarSecondary = ({ wishListCount, readCount, readBooks }: SidebarSecond
           </div>
           <div>
             <strong>Read</strong>
-            <span>{readCount} books</span>
+            <span>0 books</span>
           </div>
         </div>
       </div>

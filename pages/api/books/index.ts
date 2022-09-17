@@ -6,27 +6,15 @@ import connectDB from '@/config/connectDB';
 import { promisify } from 'util';
 import Book from '@/models/Book';
 import * as Yup from 'yup';
-import { BookStatus } from '@/types';
 
 type GetQuery = {
-  status?: BookStatus;
+  status?: string | string[];
   user: string;
 };
 
-const get = async (req: NextApiRequest, res: NextApiResponse) => {
-  const authHeader = req.headers.authorization;
-
+const get = async (req: NextApiRequest, res: NextApiResponse, userId: string) => {
   try {
-    await connectDB();
-    const [, token] = authHeader.split(' ');
-
-    const decoded = await promisify(jwt.verify)(token, authConfig.secret);
-
-    const user = await User.findOne({ id: decoded.id });
-
-    if (!user) return res.status(404).json({ message: 'Token invalid' });
-
-    const query: GetQuery = { user: user.id };
+    const query: GetQuery = { user: userId };
     const { status } = req.query;
 
     if (status) query.status = status;
@@ -39,19 +27,8 @@ const get = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-const store = async (req: NextApiRequest, res: NextApiResponse) => {
-  const authHeader = req.headers.authorization;
-
+const store = async (req: NextApiRequest, res: NextApiResponse, userId: string) => {
   try {
-    await connectDB();
-    const [, token] = authHeader.split(' ');
-
-    const decoded = await promisify(jwt.verify)(token, authConfig.secret);
-
-    const user = await User.findOne({ id: decoded.id });
-
-    if (!user) return res.status(404).json({ message: 'Token invalid' });
-
     const { book_id, title, author, description, image, page_count } = req.body;
 
     const schema = Yup.object({
@@ -65,13 +42,13 @@ const store = async (req: NextApiRequest, res: NextApiResponse) => {
 
     await schema.validate({ book_id, title, author, description, image, page_count });
 
-    let book = await Book.findOne({ book_id, user: user.id });
+    let book = await Book.findOne({ book_id, user: userId });
 
     if (book) {
       return res.status(400).json({ message: 'Book already exist' });
     }
 
-    book = await Book.create({ book_id, title, author, description, image, page_count, user: user.id });
+    book = await Book.create({ book_id, title, author, description, image, page_count, user: userId });
 
     return res.status(200).json({ data: book });
   } catch (err: any) {
@@ -85,8 +62,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(401).json({ message: 'Token not provided.' });
 
-  if (method === 'GET') return get(req, res);
-  if (method === 'POST') return store(req, res);
+  await connectDB();
+  const [, token] = authHeader.split(' ');
+
+  // @ts-ignore
+  const decoded = await promisify(jwt.verify)(token, authConfig.secret);
+  // @ts-ignore
+  const user = await User.findOne({ id: decoded.id });
+
+  if (!user) return res.status(404).json({ message: 'Token invalid' });
+
+  if (method === 'GET') return get(req, res, user.id);
+  if (method === 'POST') return store(req, res, user.id);
 
   return res.status(405).send({ message: `Method ${method} not allowed` });
 }

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-no-constructed-context-values */
 import AuthService from '@/services/auth.service';
 import { createContext, useEffect, useState } from 'react';
