@@ -5,10 +5,11 @@ import { useContext } from 'react';
 import { AuthContext } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import Input from '../Input';
+import Spinner from '../Spinner';
 
 const SignIn = () => {
   const { register, handleSubmit } = useForm();
-  const { signIn } = useContext(AuthContext);
+  const { signIn, loading } = useContext(AuthContext);
 
   const onSubmit = async (data: any) => {
     signIn(data);
@@ -44,7 +45,9 @@ const SignIn = () => {
           <Link href="/signup">Dont have account?</Link>
         </div>
 
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? <Spinner /> : 'Login'}
+        </button>
       </form>
     </div>
   );

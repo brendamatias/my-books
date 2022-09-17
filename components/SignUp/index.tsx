@@ -6,10 +6,14 @@ import { SignUpRequestData } from '@/types';
 import Router from 'next/router';
 import { toast } from 'react-toastify';
 import ErrorList from '@/config/errors';
+import { AuthContext } from '@/contexts/AuthContext';
+import { useContext } from 'react';
 import Input from '../Input';
+import Spinner from '../Spinner';
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm<SignUpRequestData>();
+  const { loading } = useContext(AuthContext);
 
   const onSubmit = async (data: SignUpRequestData) => {
     try {
@@ -57,7 +61,9 @@ const SignUp = () => {
           <a href="#teste">Do you have an account?</a>
         </div>
 
-        <button type="submit">Create account</button>
+        <button type="submit" disabled={loading}>
+          {loading ? <Spinner /> : 'Create account'}
+        </button>
       </form>
     </div>
   );

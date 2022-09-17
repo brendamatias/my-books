@@ -54,6 +54,10 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     font-family: 'Poppins', sans-serif;
     text-transform: capitalize;
+
+    &:disabled {
+      cursor: default;
+    }
   }
 
   input {
