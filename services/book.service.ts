@@ -12,16 +12,16 @@ async function getBooks(token: string, status?: BookStatus): Promise<ListBookRes
   return data;
 }
 
-async function createBook(data: BookRequestData): Promise<CreateOrUpdateBookResponseData> {
-  return fetchJson('/api/books', 'POST', data);
+async function createBook(data: BookRequestData, token: string): Promise<CreateOrUpdateBookResponseData> {
+  return fetchJson('/api/books', 'POST', data, token);
 }
 
-async function updateBook(bookId: string, status: BookStatus): Promise<CreateOrUpdateBookResponseData> {
-  return fetchJson(`/api/books/${bookId}`, 'PATCH', { status });
+async function updateBook(bookId: string, status: BookStatus, token: string): Promise<CreateOrUpdateBookResponseData> {
+  return fetchJson(`/api/books/${bookId}`, 'PATCH', { status }, token);
 }
 
-async function deleteBook(bookId: string): Promise<void> {
-  return fetchJson(`/api/books/${bookId}`, 'DELETE');
+async function deleteBook(bookId: string, token: string): Promise<void> {
+  return fetchJson(`/api/books/${bookId}`, 'DELETE', null, token);
 }
 
 const BookService = {

@@ -1,7 +1,7 @@
 import { fetchJson } from '@/helpers/fetcher';
 
-async function getProfile() {
-  return fetchJson('/api/user/profile', 'GET');
+async function getProfile(token: string) {
+  return fetchJson('/api/user/profile', 'GET', null, token);
 }
 
 const UserService = {

@@ -1,11 +1,7 @@
-import { parseCookies } from 'nookies';
-
-export async function fetchJson(url: string, method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: any) {
+export async function fetchJson(url: string, method: 'GET' | 'POST' | 'PATCH' | 'DELETE', body?: any, token?: string) {
   const headers: any = {
     'Content-Type': 'application/json',
   };
-
-  const { 'my-books.token': token } = parseCookies();
 
   if (token) headers.Authorization = `Bearer ${token}`;
 

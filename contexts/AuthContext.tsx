@@ -45,11 +45,11 @@ export function AuthProvider({ children }: any) {
     const { 'my-books.token': token } = parseCookies();
 
     if (token) {
-      UserService.getProfile()
+      UserService.getProfile(token)
         .then((response) => {
           setUser(response.user);
         })
-        .catch((err) => {
+        .catch(() => {
           toast.error(ErrorList.INTERNAL_SERVER_ERROR);
           signOut();
         });

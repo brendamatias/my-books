@@ -13,9 +13,10 @@ const BOOK_API = 'https://www.googleapis.com/books/v1/volumes?q=';
 
 type LibraryProps = {
   books: Book[];
+  token: string;
 };
 
-const Library = ({ books }: LibraryProps) => {
+const Library = ({ books, token }: LibraryProps) => {
   const [currentBooks, setCurrentBooks] = useState(books);
   const [searchTerm, setSearchTerm] = useState('');
   const [foundBooks, setFoundBooks] = useState<GoogleApiBooksResponseData[]>([]);
@@ -31,7 +32,7 @@ const Library = ({ books }: LibraryProps) => {
         image: book.volumeInfo?.imageLinks?.thumbnail,
       };
 
-      const response = await BookService.createBook(body);
+      const response = await BookService.createBook(body, token);
 
       setSearchTerm('');
       toast.success('Book added successfully');
@@ -53,7 +54,7 @@ const Library = ({ books }: LibraryProps) => {
   const handleUpdate = async (id: string, type: BookStatus) => {
     try {
       const currentType = type === 'unread' ? 'read' : 'wishlist';
-      const { data } = await BookService.updateBook(id, currentType);
+      const { data } = await BookService.updateBook(id, currentType, token);
       const index = currentBooks.findIndex((item) => item._id === id);
       const booksFormatted = [...currentBooks];
       booksFormatted.splice(index, 1);
@@ -72,7 +73,7 @@ const Library = ({ books }: LibraryProps) => {
 
     if (result) {
       try {
-        await BookService.deleteBook(id);
+        await BookService.deleteBook(id, token);
 
         const index = currentBooks.findIndex((item) => item._id === id);
         const booksFormatted = [...currentBooks];

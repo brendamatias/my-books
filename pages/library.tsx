@@ -7,16 +7,17 @@ import LibraryComponent from '@/components/Library';
 
 type LibraryProps = {
   books: Book[];
+  token: string;
 };
 
-const Library = ({ books }: LibraryProps) => (
+const Library = ({ books, token }: LibraryProps) => (
   <>
     <Head>
       <title>Library</title>
     </Head>
 
     <main>
-      <LibraryComponent books={books} />
+      <LibraryComponent books={books} token={token} />
     </main>
   </>
 );
@@ -38,6 +39,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   return {
-    props: { books: data || [] },
+    props: { books: data || [], token },
   };
 };
